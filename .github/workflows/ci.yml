@@ -3,53 +3,53 @@ name: CI
 on:
   pull_request:
     branches:
-        -develop
-      paths:
-        - 'src/***'
-        - 'tests/***'
+      - develop
+    paths:
+        - 'src/**'
+        - 'tests/**'
         - 'package.json'
-        - 'packe-16son'
-        - 'tscontig.json'
-
-      #paths-ignore: # não participam do test no Action
-       # - 'README.md'
+        - 'package-lock.json'
+        - 'tsconfig.json'
+    
+    paths-ignore: # não participam do test no Action
+      - 'README.md'
 
 env:
- PORT:3000: ${{ vars.PORT }}
- API_TOKEN: ${{ ariavel-secreta }}
+  PORT: ${{ vars.PORT }}
+  API_TOKEN: ${{ secrets.API_TOKEN }}
 
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout do código
-        uses: action/checkout@v4
+        uses: actions/checkout@v4
 
       - name: Instalar o Node
         uses: actions/setup-node@v4
         with: 
-         node-version: 22
+          node-version: 22
 
-      -  name: Instalar dependências
-         run: npm install
+      - name: Instalar dependências
+        run: npm install
 
-      -  name: Rodar os testes
-         run: npm test
+      - name: Rodar os testes
+        run: npm test
 
-    build:
+  build:
     runs-on: ubuntu-latest
     needs: test
     steps:
       - name: Checkout do código
-        uses: action/checkout@v4
+        uses: actions/checkout@v4
 
       - name: Instalar o Node
         uses: actions/setup-node@v4
         with: 
-         node-version: 22
+          node-version: 22
 
-      -  name: Instalar dependências
-         run: npm install
+      - name: Instalar dependências
+        run: npm install
 
-      -  name: Rodar os testes
-         run: npm testj 
+      - name: Fazer build
+        run: npm run build 
